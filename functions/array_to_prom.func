@@ -1,0 +1,34 @@
+#!/bin/bash
+
+array_to_prom(){
+
+advertised_data=
+
+for rig in "${allRigsNames[@]}"; do
+
+# Separate IFs by purpose - if some of them fails, the other part of the query will work
+
+if [[ "${rigs[${rig}_real_hash]}" ]]; then
+data_real_hash="${rig}{rigs=\"hash\"} ${rigs[${rig}_real_hash]}\n"
+else
+data_real_hash=
+fi
+if [[ "${rigs[${rig}_total_energy]}" ]]; then
+data_total_energy="sonoff_${rig}{sonoffs=\"energy\"} ${rigs[${rig}_total_energy]}\n"
+else
+data_total_energy=
+fi
+if [[ "${rigs[${rig}_power]}" ]]; then
+data_power="sonoff_${rig}{sonoffs=\"total_power\"} ${rigs[${rig}_power]}\n"
+else
+data_power=
+fi
+
+data_is_issue="issue_$rig{issues=\"is_issue\"} ${rigs[${rig}_is_issue]}\n"
+
+advertised_data+="${data_real_hash}${data_total_energy}${data_power}${data_is_issue}"
+
+done
+
+
+}

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+print_full_stats() {
+    printf "Check time: "
+    date '+%Y-%m-%d %H:%M'
+    printf "NAME\t\ttarget\treal\tIP\t\ttasmota_IP\tenergy \t\th_diff\tperc\tis_issue\n"
+for rig in "${allRigsNames[@]}"; do
+    printf "$rig\t${rigs[${rig}_name]}\t${rigs[${rig}_target_hash]}\t${rigs[${rig}_real_hash]}\t${rigs[${rig}_ip]}\t${rigs[${rig}_tasmotaip]}\t${rigs[${rig}_total_energy]} \t${rigs[${rig}_hash_diff]}\t${rigs[${rig}_hash_diff_perc]}\t${rigs[${rig}_is_issue]}\n"
+done
+}

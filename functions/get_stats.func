@@ -1,0 +1,48 @@
+#!/bin/bash
+
+get_stats() {
+
+local hive_jq_response=`curl --silent \
+         -H "Content-Type: application/json" \
+         -H "Authorization: Bearer $hive_api_key" \
+         "$hiveAPIUrl/farms/$main_farm_id/workers"`
+
+local worker_jq_response=
+
+#printf "JQ: $hive_jq_response\n"
+
+
+for rig in "${allRigsNames[@]}"; do
+
+#printf "INFO: Getting stats for: $rig - "
+
+worker_jq_response=`printf '%s' "$hive_jq_response" | jq -r ".data[] | select(.name==\"$rig\")"`
+
+#printf  "JQ: $worker_jq_response\n"
+
+rigs[${rig}_real_hash]=`printf "$worker_jq_response" | jq ".miners_summary.hashrates[0].hash" | sed 's/...$//' | grep -o '[[:digit:]]*'`
+
+
+rigs[${rig}_hash_diff]=$((${rigs[${rig}_real_hash]}-${rigs[${rig}_target_hash]}))
+rigs[${rig}_hash_diff_perc]=$((${rigs[${rig}_hash_diff]}*100 / ${rigs[${rig}_target_hash]}))
+
+if [[ ${rigs[${rig}_hash_diff_perc]} -eq -100 ]] ; then
+    rigs[${rig}_is_issue]=2
+elif [[ ${rigs[${rig}_hash_diff_perc]} -le -5 ]] ; then
+    rigs[${rig}_is_issue]=1
+else
+    rigs[${rig}_is_issue]=0
+fi
+
+#printf "real_hash: ${rigs[${rig}_real_hash]} "
+
+#printf "Getting energy stats: "
+
+local tasmota_stats=`timeout $curl_timeout curl -m 1 --silent http://${rigs[${rig}_tasmotaip]}/cm?cmnd=Status%208`
+rigs[${rig}_total_energy]=`printf "$tasmota_stats" | jq .StatusSNS.ENERGY.Total`
+rigs[${rig}_power]=`printf "$tasmota_stats" | jq .StatusSNS.ENERGY.Power`
+
+#printf "${rigs[${rig}_total_energy]} kWh/${rigs[${rig}_power]} W\n"
+
+done
+}

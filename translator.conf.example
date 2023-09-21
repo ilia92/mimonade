@@ -1,0 +1,18 @@
+# API key HiveOS
+hive_api_key=""
+# Hive API URL
+hiveAPIUrl='https://api2.hiveos.farm/api/v2'
+# Hive API URL
+main_farm_id=""
+
+# Netcat server port. Might be used with "IP Port" 
+# for better security and stability use "127.0.0.1 9091"
+server_port="127.0.0.1 9091"
+
+# Sending commands type: hive/local
+# hive (preffered)- means the bot will send API requests to Hive
+# (not implemented) local - means the bot will send commands via SSH. Requires SSH access to every machine with a key.
+command_type=hive
+
+# Timeout of the Curl queries to the rigs
+curl_timeout=3
