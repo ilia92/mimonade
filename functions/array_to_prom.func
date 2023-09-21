@@ -23,10 +23,15 @@ data_power="sonoff_${rig}{sonoffs=\"total_power\"} ${rigs[${rig}_power]}\n"
 else
 data_power=
 fi
+if [[ "${rigs[${rig}_voltage]}" ]]; then
+data_voltage="sonoff_${rig}{sonoffs=\"voltage\"} ${rigs[${rig}_voltage]}\n"
+else
+data_power=
+fi
 
 data_is_issue="issue_$rig{issues=\"is_issue\"} ${rigs[${rig}_is_issue]}\n"
 
-advertised_data+="${data_real_hash}${data_total_energy}${data_power}${data_is_issue}"
+advertised_data+="${data_real_hash}${data_total_energy}${data_power}${data_voltage}${data_is_issue}"
 
 done
 

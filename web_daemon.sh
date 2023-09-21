@@ -61,17 +61,13 @@ coproc (nc -l $server_port 2>&1)
     read request
 #    declare "$( sed -e 's/^Connection from \([^ ]*\).*$/client="\1"/' -e 'q' )"
 #    date >> entries.html
-    handle_http
-    get_stats >/dev/null 2>&1
-    printf "$result"
+    handle_http >/dev/null 2>&1
+    printf "$result" && sleep 0.1
 } <&${COPROC[0]} >&${COPROC[1]}
-
 
 kill "$COPROC_PID"
 
 printf "REQUEST: $request\n"
 printf "RESPONSE: $result\n\n"
-
-wait
-sleep 0.2
+sleep 0.1
 done
