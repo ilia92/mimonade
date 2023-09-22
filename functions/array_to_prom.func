@@ -19,7 +19,7 @@ else
 data_total_energy=
 fi
 if [[ "${rigs[${rig}_power]}" ]]; then
-data_power="sonoff_${rig}{sonoffs=\"total_power\"} ${rigs[${rig}_power]}\n"
+data_power="sonoff_${rig}{sonoffs=\"power\"} ${rigs[${rig}_power]}\n"
 else
 data_power=
 fi
