@@ -2,7 +2,7 @@
 
 DIR="$(dirname "$(readlink -f "$0")")"
 
-if [ -z "$STY" ]; then
+if [ "$1" = "--screen" ]; then
 printf "Translator+webserver started in background\n"
 screen -S translator -X quit > /dev/null
 exec screen -dm -S translator /bin/bash $0

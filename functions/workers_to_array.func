@@ -15,9 +15,10 @@ addrig() {
     rigs["$1_farm_id"]="$3"
     rigs["$1_worker_id"]="$4"
     rigs["$1_ip"]="$5"
-    rigs["$1_miner"]="$6"
+    rigs["$1_currency"]="$6"
     rigs["$1_tasmotaip"]="$7"
-    rigs["$1_comment"]="$8"
+    rigs["$1_phase"]="$8"
+    rigs["$1_comment"]="$9"
 }
 
 while IFS= read -r line;
@@ -28,7 +29,7 @@ done <<< $workers_file_read
 
 
 #for rig in "${allRigsNames[@]}"; do
-#    printf "NAME: $rig ${rigs[${rig}_name]}\ttaget_hash: ${rigs[${rig}_target_hash]}\t\tminer: ${rigs[${rig}_miner]}\tIP: ${rigs[${rig}_ip]}\ttasmota_IP: ${rigs[${rig}_tasmotaip]}\n"
+#    printf "NAME: $rig ${rigs[${rig}_name]}\ttaget_hash: ${rigs[${rig}_target_hash]}\t\tcurrency: ${rigs[${rig}_currency]}\tIP: ${rigs[${rig}_ip]}\ttasmota_IP: ${rigs[${rig}_tasmotaip]}\n"
 #done
 
 

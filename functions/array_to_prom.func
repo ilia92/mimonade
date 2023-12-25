@@ -9,22 +9,22 @@ for rig in "${allRigsNames[@]}"; do
 # Separate IFs by purpose - if some of them fails, the other part of the query will work
 
 if [[ "${rigs[${rig}_real_hash]}" ]]; then
-data_real_hash="${rig}{rigs=\"hash\"} ${rigs[${rig}_real_hash]}\n"
+data_real_hash="${rig}{rigs=\"hash\", currency=\"${rigs[${rig}_currency]}\"} ${rigs[${rig}_real_hash]}\n"
 else
 data_real_hash=
 fi
 if [[ "${rigs[${rig}_total_energy]}" ]]; then
-data_total_energy="sonoff_${rig}{sonoffs=\"energy\"} ${rigs[${rig}_total_energy]}\n"
+data_total_energy="sonoff_${rig}{sonoffs=\"energy\", phaseE=\"${rigs[${rig}_phase]}\"} ${rigs[${rig}_total_energy]}\n"
 else
 data_total_energy=
 fi
 if [[ "${rigs[${rig}_power]}" ]]; then
-data_power="sonoff_${rig}{sonoffs=\"power\"} ${rigs[${rig}_power]}\n"
+data_power="sonoff_${rig}{sonoffs=\"power\", phaseP=\"${rigs[${rig}_phase]}\"} ${rigs[${rig}_power], phase=\"${rigs[${rig}_phase]}\"}\n"
 else
 data_power=
 fi
 if [[ "${rigs[${rig}_voltage]}" ]]; then
-data_voltage="sonoff_${rig}{sonoffs=\"voltage\"} ${rigs[${rig}_voltage]}\n"
+data_voltage="sonoff_${rig}{sonoffs=\"voltage\", phaseV=\"${rigs[${rig}_phase]}\"} ${rigs[${rig}_voltage]}\n"
 else
 data_power=
 fi
