@@ -50,6 +50,7 @@ esac
 
 }
 
+#Use for debug purposes
 #get_stats array_to_prom result+="$advertised_data"
 
 while [ 1 ]
