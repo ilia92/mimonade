@@ -703,7 +703,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 2,
         "x": 22,
         "y": 8
@@ -743,73 +743,6 @@
         }
       ],
       "title": "SUM Over Time",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "yellow",
-                "value": null
-              }
-            ]
-          },
-          "unit": "kwatth"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 2,
-        "x": 22,
-        "y": 12
-      },
-      "id": 16,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "diff"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "10.1.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "f3263493-aa83-4dec-8787-5b40fdc3c775"
-          },
-          "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "{sun2000=\"energy\"}",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "SUN SUM Over Time",
       "type": "stat"
     },
     {
@@ -1719,6 +1652,6 @@
   "timezone": "",
   "title": "Mining Farm",
   "uid": "bd51ebf8-1aa0-4ca2-a653-1049e346917f",
-  "version": 147,
+  "version": 148,
   "weekStart": ""
 }
