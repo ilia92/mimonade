@@ -1,4 +1,4 @@
-# Mining Monitoring Prometheus Advertiser - MiMonAd-e
+# Mining Monitoring Prometheus Advertiser - MiMonAde
 
 ## What this script does:
 1. Monitoring mining rigs, trough the HiveOS API
