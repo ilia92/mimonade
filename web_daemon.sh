@@ -30,7 +30,7 @@ export result=
 handle_http(){
 
 html_header='HTTP/1.1 200 OK
-Content-Type: text/html; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8
 Server: netcat!
 
 '
