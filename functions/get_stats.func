@@ -12,7 +12,7 @@ printf "INFO: Getting stats for: $rig\n"
 temp_var=farm_jq_response_${rigs[${rig}_farm_id]}
 farm_jq_response=${!temp_var}
 
-if ! [[ "$farm_jq_response" ]]; then
+if ! [[ "$farm_jq_response" ]] && [[ ${rigs[${rig}_target_hash]} -ne 0 ]]; then
 
 #printf "\n CURL for farm_id:  ${rigs[${rig}_farm_id]}\n "
 declare farm_jq_response_${rigs[${rig}_farm_id]}="`curl --silent \
@@ -21,7 +21,10 @@ declare farm_jq_response_${rigs[${rig}_farm_id]}="`curl --silent \
          "$hiveAPIUrl/farms/${rigs[${rig}_farm_id]}/workers"`"
 fi
 
+
 # Translate to farm_jq_id to value
+if [[ ${rigs[${rig}_target_hash]} -ne 0 ]] ; then
+
 temp_var=farm_jq_response_${rigs[${rig}_farm_id]}
 farm_jq_response=${!temp_var}
 
@@ -32,9 +35,13 @@ worker_jq_response=`printf '%s' "$farm_jq_response" | jq -r ".data[] | select(.n
 
 rigs[${rig}_real_hash]=`printf '%s' "$worker_jq_response" | jq ".miners_summary.hashrates[0].hash" | sed 's/...$//' | grep -o '[[:digit:]]*'`
 
-
 rigs[${rig}_hash_diff]=$((${rigs[${rig}_real_hash]}-${rigs[${rig}_target_hash]}))
 rigs[${rig}_hash_diff_perc]=$((${rigs[${rig}_hash_diff]}*100 / ${rigs[${rig}_target_hash]}))
+
+else
+rigs[${rig}_hash_diff_perc]=0
+fi
+
 
 if [[ ${rigs[${rig}_hash_diff_perc]} -eq -100 ]] ; then
     rigs[${rig}_is_issue]=2
