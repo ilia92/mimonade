@@ -33,9 +33,17 @@ worker_jq_response=`printf '%s' "$farm_jq_response" | jq -r ".data[] | select(.n
 
 #printf  "JQ: $worker_jq_response\n"
 
-rigs[${rig}_real_hash]=`printf '%s' "$worker_jq_response" | jq ".miners_summary.hashrates[0].hash" | sed 's/...$//' | grep -o '[[:digit:]]*'`
+rigs[${rig}_real_hash]=`printf '%s' "$worker_jq_response" | jq ".miners_summary.hashrates[0].hash" | grep -o '[[:digit:]]*' | tail -1`
+
+if [ "${rigs[${rig}_currency]}" == "flux" ]; then
+    rigs[${rig}_real_hash]=$(echo "${rigs[${rig}_real_hash]}" | sed 's/..$//')  # Remove the last two characters
+else
+    rigs[${rig}_real_hash]=$(echo "${rigs[${rig}_real_hash]}" | sed 's/...$//')  # Remove the last three characters
+fi
+
 
 rigs[${rig}_hash_diff]=$((${rigs[${rig}_real_hash]}-${rigs[${rig}_target_hash]}))
+#rigs[${rig}_hash_diff]=$(echo "${rigs[${rig}_real_hash]} - ${rigs[${rig}_target_hash]}" | bc)
 rigs[${rig}_hash_diff_perc]=$((${rigs[${rig}_hash_diff]}*100 / ${rigs[${rig}_target_hash]}))
 
 else
