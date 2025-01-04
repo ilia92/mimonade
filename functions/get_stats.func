@@ -33,14 +33,13 @@ worker_jq_response=`printf '%s' "$farm_jq_response" | jq -r ".data[] | select(.n
 
 #printf  "JQ: $worker_jq_response\n"
 
-rigs[${rig}_real_hash]=`printf '%s' "$worker_jq_response" | jq ".miners_summary.hashrates[0].hash" | grep -o '[[:digit:]]*' | tail -1`
+rigs[${rig}_real_hash]=`printf '%s' "$worker_jq_response" | jq ".miners_summary.hashrates[0].hash"`
 
-if [ "${rigs[${rig}_currency]}" == "flux" ]; then
-    rigs[${rig}_real_hash]=$(echo "${rigs[${rig}_real_hash]}" | sed 's/..$//')  # Remove the last two characters
+if [[ "${rigs[${rig}_currency]}" == *flux* ]]; then
+    rigs[${rig}_real_hash]=$(echo "${rigs[${rig}_real_hash]}"*1000/1 | bc )  # Multiply *1000 to receive in Human-readable
 else
-    rigs[${rig}_real_hash]=$(echo "${rigs[${rig}_real_hash]}" | sed 's/...$//')  # Remove the last three characters
+    rigs[${rig}_real_hash]=$(echo "${rigs[${rig}_real_hash]}"/1000 | bc )  # Divide /1000 to receive in Megahashes
 fi
-
 
 rigs[${rig}_hash_diff]=$((${rigs[${rig}_real_hash]}-${rigs[${rig}_target_hash]}))
 #rigs[${rig}_hash_diff]=$(echo "${rigs[${rig}_real_hash]} - ${rigs[${rig}_target_hash]}" | bc)
@@ -59,7 +58,7 @@ else
     rigs[${rig}_is_issue]=0
 fi
 
-#printf "real_hash: ${rigs[${rig}_real_hash]} "
+#printf "real_hash: ${rigs[${rig}_real_hash]} \n"
 
 #printf "Getting energy stats: "
 
